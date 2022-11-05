@@ -6,7 +6,7 @@ import { CAMPSITES } from '../shared/campsites';
 const DirectoryScreen = ({ navigation }) => {
     const [campsites, setCampsites] = useState(CAMPSITES);
    
-
+    //WE decided to name our item "campsite" below
     const renderDirectoryItem = ({ item: campsite }) => {
         return (
             <ListItem 
