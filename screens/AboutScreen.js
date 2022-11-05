@@ -4,6 +4,7 @@ import { Avatar, Card, ListItem } from "react-native-elements";
 import { PARTNERS } from "../shared/partners";
 
 const Mission = () => {
+  console.log("mission component loaded")
   return (
       <Card>
         <Card.Title>Our Mission</Card.Title>
