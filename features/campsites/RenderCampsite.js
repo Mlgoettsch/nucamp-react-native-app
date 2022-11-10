@@ -4,7 +4,7 @@ import { Card, Icon } from 'react-native-elements';
 const RenderCampsite = ({ campsite }) => {
     if (campsite) {
         return (
-            <Card containerStyle={StyleSheet.cardContainer}>
+            <Card containerStyle={styles.cardContainer}>
                 <Card.Image source={campsite.image}>
                     <View style={{ justifyContent: 'center', flex: 1 }}>
                         <Text
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     cardContainer: {
         padding: 0,
         margin: 0,
-        marginBottom: 0
+        marginBottom: 20
 
     }
 })
