@@ -9,13 +9,19 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import AboutScreen from './AboutScreen';
 import ContactScreen from './ContactScreen';
 import logo from '../assets/images/logo.png';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchPartners } from '../features/partners/partnersSlice';
+import { fetchCampsites } from '../features/campsites/campsitesSlice';
+import { fetchPromotions } from '../features/promotions/promotionsSlice';
+import { fetchComments } from '../features/comments/commentsSlice';
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
   headerTintColor: '#fff',
   headerStyle: { backgroundColor: '#5637DD' }
-}
+};
 
 const HomeNavigator = () => {
   const Stack = createStackNavigator();
@@ -37,8 +43,8 @@ const HomeNavigator = () => {
         })}
       />  
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const AboutNavigator = () => {
   const Stack = createStackNavigator();
@@ -59,8 +65,8 @@ const AboutNavigator = () => {
         })}
       />  
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const ContactNavigator = () => {
   const Stack = createStackNavigator();
@@ -82,8 +88,8 @@ const ContactNavigator = () => {
         })}
       />  
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const DirectoryNavigator = () => {
   const Stack = createStackNavigator();
@@ -130,18 +136,24 @@ const CustomDrawerContent = (props) => (
   </View>
   <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
  </DrawerContentScrollView>
-)
+);
 
 const Main = () => {
-    // const [campsites, setCampsites] = useState(CAMPSITES);
-    // const [selectedCampsiteId, setSelectedCampsiteId] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCampsites());
+    dispatch(fetchPromotions());
+    dispatch(fetchPartners());
+    dispatch(fetchComments());
+  }, [dispatch]);
 
     return (
       <View 
         style={{ 
           flex: 1,
           paddingTop:
-          Platform.OS === 'ios' ? 0 : Constants.statusBarHeight 
+            Platform.OS === 'ios' ? 0 : Constants.statusBarHeight 
         }}
       >
         <Drawer.Navigator
@@ -159,7 +171,6 @@ const Main = () => {
                   name='home'
                   type='font-awesome'
                   size={24}
-               
                   color= {color}
                 />  
               )
