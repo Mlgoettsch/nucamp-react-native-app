@@ -102,12 +102,13 @@ const ReservationScreen = () => {
               Date: {date.toLocaleDateString('en-US')}
             </Text>
             <Button
+              color='#5637DD'
+              title='Close'
               onPress={() => {
                   setShowModal(!showModal);
                   resetForm();
               }}
-              color='#5637DD'
-              title='Close'
+              
             />
           </View>
         </Modal>
