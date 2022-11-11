@@ -52,7 +52,7 @@ const AboutScreen = () => {
         <Card.Divider />
         {partners.partnersArray.map((partner) => (
           <ListItem key={partner.id}>
-            <Avatar rounded source={{ uri: baseUrl + item.image }} /> 
+            <Avatar rounded source={{ uri: baseUrl + partner.image }} /> 
               <ListItem.Content>
                 <ListItem.Title>{partner.name}</ListItem.Title>
                 <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>
