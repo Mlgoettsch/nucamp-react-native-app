@@ -5,9 +5,10 @@ import * as Animatable from "react-native-animatable";
 import { useRef } from 'react';
 
 const RenderCampsite = (props) => {
-  const { campsite } = props;
+  const { onShowModal, campsite } = props;
   const view = useRef();
   const isLeftSwipe = ({ dx }) => dx < -200;
+  const isRightSwipe = ({ dx }) => dx > 200;
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
@@ -16,28 +17,30 @@ const RenderCampsite = (props) => {
       .then((endState) => console.log(endState.finished ? 'finished' : 'canceled'))
     },
     onPanResponderEnd: (e, gestureState) => {
-      console.log({ gestureState });
-      if (isLeftSwipe(gestureState)) {
-        Alert.alert(
-          "Add Favorite",
-          "Are you sure you wish to add " + campsite.name + " to favorites?",
-          [
-            {
-              text: "Cancel",
-              style: "cancel",
-              onPress: () => console.log("Cancel Pressed"),
-            },
-            {
-              text: "OK",
-              onPress: () =>
-                props.isFavorite
-                  ? console.log("Already set as a favorite")
-                  : props.markFavorite(),
-            },
-          ],
-          { cancelable: false }
-        );
-      }
+        console.log({ gestureState });
+        if (isLeftSwipe(gestureState)) {
+            Alert.alert(
+            "Add Favorite",
+            "Are you sure you wish to add " + campsite.name + " to favorites?",
+            [
+                {
+                text: "Cancel",
+                style: "cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                },
+                {
+                text: "OK",
+                onPress: () =>
+                    props.isFavorite
+                    ? console.log("Already set as a favorite")
+                    : props.markFavorite(),
+                },
+            ],
+            { cancelable: false }
+            );
+        } else if(isRightSwipe(gestureState)) {
+            onShowModal(true)     
+        }
     },
   });
 
