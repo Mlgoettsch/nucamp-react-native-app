@@ -1,8 +1,15 @@
-import { Text, View, StyleSheet, PanResponder, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  PanResponder,
+  Alert,
+  Share,
+} from "react-native";
 import { Card, Icon } from "react-native-elements";
 import { baseUrl } from "../../shared/baseUrl";
 import * as Animatable from "react-native-animatable";
-import { useRef } from 'react';
+import { useRef } from "react";
 
 const RenderCampsite = (props) => {
   const { onShowModal, campsite } = props;
@@ -13,46 +20,61 @@ const RenderCampsite = (props) => {
     onStartShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
       view.current
-      .rubberBand(1000)
-      .then((endState) => console.log(endState.finished ? 'finished' : 'canceled'))
+        .rubberBand(1000)
+        .then((endState) =>
+          console.log(endState.finished ? "finished" : "canceled")
+        );
     },
     onPanResponderEnd: (e, gestureState) => {
-        console.log({ gestureState });
-        if (isLeftSwipe(gestureState)) {
-            Alert.alert(
-            "Add Favorite",
-            "Are you sure you wish to add " + campsite.name + " to favorites?",
-            [
-                {
-                text: "Cancel",
-                style: "cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                },
-                {
-                text: "OK",
-                onPress: () =>
-                    props.isFavorite
-                    ? console.log("Already set as a favorite")
-                    : props.markFavorite(),
-                },
-            ],
-            { cancelable: false }
-            );
-        } else if(isRightSwipe(gestureState)) {
-            onShowModal(true)     
-        }
+      console.log({ gestureState });
+      if (isLeftSwipe(gestureState)) {
+        Alert.alert(
+          "Add Favorite",
+          "Are you sure you wish to add " + campsite.name + " to favorites?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => console.log("Cancel Pressed"),
+            },
+            {
+              text: "OK",
+              onPress: () =>
+                props.isFavorite
+                  ? console.log("Already set as a favorite")
+                  : props.markFavorite(),
+            },
+          ],
+          { cancelable: false }
+        );
+      } else if (isRightSwipe(gestureState)) {
+        onShowModal(true);
+      }
     },
   });
 
+  const shareCampsite = (title, message, url) => {
+    Share.share(
+      {
+        title,
+        message: `${title}: ${message} ${url}`,
+        url,
+      },
+      {
+        dialogTitle: "Share " + title,
+      }
+    );
+  };
+
   if (campsite) {
     return (
-      <Animatable.View 
-        animation="fadeInDownBig" 
-        duration={2000} 
+      <Animatable.View
+        animation="fadeInDownBig"
+        duration={2000}
         delay={1000}
         ref={view}
         {...panResponder.panHandlers}
-        >
+      >
         <Card containerStyle={styles.cardContainer}>
           <Card.Image source={{ uri: baseUrl + campsite.image }}>
             <View style={{ justifyContent: "center", flex: 1 }}>
@@ -80,6 +102,20 @@ const RenderCampsite = (props) => {
               raised
               reverse
               onPress={() => props.onShowModal()}
+            />
+            <Icon
+              name="share"
+              type="font-awesome"
+              color="#5637DD"
+              raised
+              reverse
+              onPress={() =>
+                shareCampsite(
+                  campsite.name,
+                  campsite.description,
+                  baseUrl + campsite.img
+                )
+              }
             />
           </View>
         </Card>
